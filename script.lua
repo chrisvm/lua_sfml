@@ -24,7 +24,6 @@ function update_position(delta)
 end
 
 function update(delta)
-    print(delta)
 	window.clear()
 	update_position(delta)
 	for index = 1, #shapes do
