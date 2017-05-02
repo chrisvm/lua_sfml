@@ -1,5 +1,5 @@
 function setup()
-	window.antialias = 8
+	window.antialias = 4
 	window.create(600, 400)
 	print('screen width: ' .. window.width)
 	print('screen height: ' .. window.height)
@@ -16,16 +16,17 @@ function setup()
 	shapes = { shape1, shape2, shape3 }
 end
 
-function update()
-	local delta = 0.001
+function update(delta)
+    local speed = 50
 	for index = 1, #shapes do
-		shapes[index]:move(delta, delta)
+		shapes[index]:move(speed * delta, speed * delta)
 	end
 end
 
-function draw()
+function draw(delta)
+    print(delta)
 	window.clear()
-	update()
+	update(delta)
 	for index = 1, #shapes do
 		shapes[index]:draw()
 	end
