@@ -16,17 +16,17 @@ function setup()
 	shapes = { shape1, shape2, shape3 }
 end
 
-function update(delta)
+function update_position(delta)
     local speed = 50
 	for index = 1, #shapes do
 		shapes[index]:move(speed * delta, speed * delta)
 	end
 end
 
-function draw(delta)
+function update(delta)
     print(delta)
 	window.clear()
-	update(delta)
+	update_position(delta)
 	for index = 1, #shapes do
 		shapes[index]:draw()
 	end

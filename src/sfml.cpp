@@ -4,6 +4,7 @@
 #include <chrono>
 #include "EngineComponents.h"
 #include "CircleShape.h"
+#include "RectangleShape.h"
 
 void SetupEngineComponents(lua_sfml::EngineComponents *components);
 void CreateWindow(lua_sfml::EngineComponents *components, uint width, uint height);
@@ -14,7 +15,7 @@ int main() {
 
 	// load update and setup functions
 	components.SolState->script_file("script.lua");
-	std::function<void(double)> draw_f = (*components.SolState)["draw"];
+	std::function<void(double)> update_f = (*components.SolState)["update"];
 	std::function<void()> setup_f = (*components.SolState)["setup"];
 
 	// call setup one time
@@ -26,10 +27,12 @@ int main() {
         return 0;
     }
 
-    // set start of execution
+    // set start of execution time
     std::chrono::steady_clock::time_point endTime = std::chrono::steady_clock::now();
     std::chrono::duration<double, std::ratio<1, 1000>> deltaTime;
-	while (components.Window->isOpen()) {
+
+    // game loop
+    while (components.Window->isOpen()) {
 		// pump events
 		sf::Event event;
 		while (components.Window->pollEvent(event)) {
@@ -42,7 +45,7 @@ int main() {
         deltaTime = std::chrono::duration_cast<std::chrono::duration<double, std::ratio<1, 1000>>>
                 (std::chrono::steady_clock::now() - endTime);
         endTime = std::chrono::steady_clock::now();
-		draw_f(deltaTime.count() * 1.0/1000.0);
+		update_f(deltaTime.count() * 1.0/1000.0);
 	}
 
 	return 0;
@@ -72,6 +75,7 @@ void SetupEngineComponents(lua_sfml::EngineComponents *components) {
 
     // register CircleType
     lua_sfml::CircleShape::Register(components->SolState);
+    lua_sfml::RectangleShape::Register(components->SolState);
 }
 
 void CreateWindow(lua_sfml::EngineComponents *components, uint width, uint height) {
