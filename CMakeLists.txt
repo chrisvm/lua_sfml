@@ -4,7 +4,6 @@ project (lua_sfml)
 
 include_directories(/usr/include/lua5.3)
 include_directories(include)
-configure_file(script.lua script.lua COPYONLY)
 
 add_executable(lua_sfml
         src/sfml.cpp
