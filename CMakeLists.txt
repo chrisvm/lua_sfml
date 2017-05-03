@@ -13,7 +13,7 @@ add_executable(lua_sfml
         src/Renderable.h
         src/Renderable.cpp
         src/CircleShape.cpp
-        src/CircleShape.h src/RectangleShape.cpp src/RectangleShape.h)
+        src/CircleShape.h src/RectangleShape.cpp src/RectangleShape.h src/Opts.h)
 
 target_link_libraries(lua_sfml sfml-graphics)
 target_link_libraries(lua_sfml sfml-window)

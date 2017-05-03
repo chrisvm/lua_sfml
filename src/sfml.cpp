@@ -5,16 +5,30 @@
 #include "EngineComponents.h"
 #include "CircleShape.h"
 #include "RectangleShape.h"
+#include "Opts.h"
 
 void SetupEngineComponents(lua_sfml::EngineComponents *components);
 void CreateWindow(lua_sfml::EngineComponents *components, uint width, uint height);
 
-int main() {
+
+int main(int argc, char *argv[]) {
+    lua_sfml::ArgumentOptions *opts = lua_sfml::ArgumentOptions::GetArgOptions(argc, argv);
+
+    if (opts->ShowHelp) {
+        lua_sfml::ArgumentOptions::ShowHelpText();
+        return 0;
+    }
+
+    if (opts->MainScriptPath == "") {
+        std::cout << "No SCRIPT argument given. Try '-h' for help." << std::endl;
+        return 0;
+    }
+
     lua_sfml::EngineComponents components;
     SetupEngineComponents(&components);
 
 	// load update and setup functions
-	components.SolState->script_file("script.lua");
+	components.SolState->script_file(opts->MainScriptPath);
 	std::function<void(double)> update_f = (*components.SolState)["update"];
 	std::function<void()> setup_f = (*components.SolState)["setup"];
 
